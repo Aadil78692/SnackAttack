@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spice & Slice - My Pizza Zone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #f97316;
+            --secondary: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/96579096-8e0d-4b40-8cda-da294d8d3941.png') no-repeat center center;
+            background-size: cover;
+            height: 60vh;
+        }
+
+        .pizza-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .spice-level-1 { background-color: #ffedd5; }
+        .spice-level-2 { background-color: #fed7aa; }
+        .spice-level-3 { background-color: #fdba74; }
+        .spice-level-4 { background-color: #fb923c; }
+        .spice-level-5 { background-color: #f97316; }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .error-message {
+            background: #ef4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .order-status {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-pending { background-color: #fef3c7; color: #f59e0b; }
+        .status-preparing { background-color: #dbeafe; color: #3b82f6; }
+        .status-out_for_delivery { background-color: #d1fae5; color: #10b981; }
+        .status-delivered { background-color: #f3f4f6; color: #6b7280; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4141d968-927c-4174-9d83-0cd53e1503a9.png" alt="Spice & Slice logo featuring a pizza slice with Indian spices arranged around it" class="h-12 w-12">
+                    <span class="text-xl font-bold text-orange-500">Spice & Slice</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#menu" class="text-gray-700 hover:text-orange-500">Menu</a>
+                    <a href="#order" class="text-gray-700 hover:text-orange-500">Order Online</a>
+                    <a href="#about" class="text-gray-700 hover:text-orange-500">About Us</a>
+                    <a href="#contact" class="text-gray-700 hover:text-orange-500">Contact</a>
+                    <div class="cart-icon" onclick="toggleCart()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"></path>
+                        </svg>
+                        <span id="cart-count" class="cart-count">0</span>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-gray-700 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero flex items-center justify-center text-center">
+        <div class="px-4">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">My Pizza Zone</h1>
+            <p class="text-xl text-white mb-8">Where traditional Indian flavors meet classic Italian pizza</p>
+            <a href="#menu" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-medium transition-colors">Explore Menu</a>
+        </div>
+    </section>
+
+    <!-- Featured Pizzas -->
+    <section id="menu" class="py-16 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2">Our Signature Pizzas</h2>
+                <div class="w-24 h-1 bg-orange-500 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="menu-items">
+                <!-- Menu items will be loaded dynamically -->
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
+                    <p class="mt-4 text-gray-600">Loading menu items...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order" class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2">Place Your Order</h2>
+                <div class="w-24 h-1 bg-orange-500 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-semibold mb-6">Your Cart</h3>
+                    <div id="cart-items" class="mb-6 border-b pb-6">
+                        <!-- Cart items will be added here dynamically -->
+                        <div class="text-gray-500 italic">Your cart is empty</div>
+                    </div>
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-lg font-semibold">Total:</span>
+                        <span id="cart-total" class="text-2xl font-bold text-orange-500">₹0</span>
+                    </div>
+                    <button id="checkout-btn" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-medium transition-colors disabled:bg-gray-400" disabled>
+                        Proceed to Checkout
+                    </button>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-6">Delivery Information</h3>
+                    <form id="order-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block mb-1 font-medium">Full Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block mb-1 font-medium">Phone Number</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" required>
+                        </div>
+                        <div>
+                            <label for="address" class="block mb-1 font-medium">Delivery Address</label>
+                            <textarea id="address" rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" required></textarea>
+                        </div>
+                        <div>
+                            <label for="payment" class="block mb-1 font-medium">Payment Method</label>
+                            <select id="payment" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" required>
+                                <option value="cash">Cash on Delivery</option>
+                                <option value="upi">UPI Payment</option>
+                                <option value="card">Credit/Debit Card</option>
+                            </select>
+                        </div>
+                        <div class="pt-2">
+                            <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition-colors">
+                                Place Order
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
