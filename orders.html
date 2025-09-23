@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - SnackAttack</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>SnackAttack</h1>
+        <p>Your favorite Indian restaurant - Order online now!</p>
+    </header>
+
+    <main>
+        <section id="orders-list">
+            <h2>All Orders</h2>
+            <div id="orders-container">
+                <p>No orders found.</p>
+            </div>
+            <button onclick="window.location.href='index.html'">Back to Menu</button>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('http://localhost:3001/api/orders')
+                .then(response => response.json())
+                .then(orders => {
+                    if (orders.length === 0) {
+                        document.getElementById('orders-container').innerHTML = '<p>No orders found.</p>';
+                    } else {
+                        let ordersHtml = '';
+                        orders.forEach((order, index) => {
+                            const items = JSON.parse(order.items);
+                            ordersHtml += `
+                                <div class="order">
+                                    <h3>Order #${index + 1}</h3>
+                                    <h4>Customer Information:</h4>
+                                    <p>Name: ${order.customer_name}</p>
+                                    <h4>Order Details:</h4>
+                                    <div class="order-items">
+                                        ${items.map(item => `<p>${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}</p>`).join('')}
+                                    </div>
+                                    <p><strong>Total: ₹${order.total}</strong></p>
+                                </div>
+                            `;
+                        });
+                        document.getElementById('orders-container').innerHTML = ordersHtml;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching orders:', error);
+                    document.getElementById('orders-container').innerHTML = '<p>Error loading orders.</p>';
+                });
+        });
+    </script>
+</body>
+</html>
