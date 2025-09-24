@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Successful - SnackAttack</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -12,21 +13,35 @@
         <p>Your favorite Indian restaurant - Order online now!</p>
     </header>
 
-    <main>
-        <section id="success-message">
-            <h2>Order Placed Successfully!</h2>
-            <p>Thank you for your order. Your delicious Indian food will be prepared shortly.</p>
-            <p>You will receive a confirmation message on your phone.</p>
-            <div id="order-details" style="display: none;">
-                <h3>Order Details:</h3>
-                <div id="order-items"></div>
-                <p><strong>Total: ₹<span id="order-total">0</span></strong></p>
-                <h3>Customer Information:</h3>
-                <p>Name: <span id="customer-name"></span></p>
-                <p>Phone: <span id="customer-phone"></span></p>
-                <p>Address: <span id="customer-address"></span></p>
+    <main style="max-width: 800px; margin: 0 auto; padding: 3rem 2rem;">
+        <section id="success-message" style="text-align: center; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 30px; padding: 4rem 2rem; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="margin-bottom: 2rem;">
+                <i class="fas fa-check-circle" style="font-size: 5rem; color: #4CAF50; margin-bottom: 1rem; animation: bounce 1s ease-in-out;"></i>
+                <h2 style="color: #4CAF50; font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700;">Order Placed Successfully!</h2>
+                <p style="font-size: 1.2rem; color: #666; margin-bottom: 0.5rem;">Thank you for your order! 🎉</p>
+                <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">Your delicious Indian food will be prepared shortly.</p>
+                <p style="font-size: 1rem; color: #888;"><i class="fas fa-mobile-alt"></i> You will receive a confirmation message on your phone.</p>
             </div>
-            <button onclick="window.location.href='index.html'">Place New Order</button>
+
+            <div id="order-details" style="display: none; background: linear-gradient(145deg, #f8f9fa, #e9ecef); border-radius: 20px; padding: 2rem; margin: 2rem 0; border: 1px solid rgba(0,0,0,0.05);">
+                <h3 style="color: #333; font-size: 1.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid #4CAF50; padding-bottom: 0.5rem;"><i class="fas fa-receipt"></i> Order Details</h3>
+                <div id="order-items" style="margin-bottom: 1.5rem;"></div>
+                <div style="background: linear-gradient(145deg, #fff3e0, #ffcc02); border-radius: 15px; padding: 1.5rem; border: 2px solid #ff9800; margin-bottom: 1.5rem;">
+                    <p style="font-size: 1.3rem; color: #ff6f00; margin: 0;"><strong>Total: ₹<span id="order-total">0</span></strong></p>
+                </div>
+                <h3 style="color: #333; font-size: 1.3rem; margin-bottom: 1rem;"><i class="fas fa-user"></i> Customer Information</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: left;">
+                    <p style="background: white; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);"><strong>Name:</strong> <span id="customer-name"></span></p>
+                    <p style="background: white; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);"><strong>Phone:</strong> <span id="customer-phone"></span></p>
+                    <p style="background: white; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); grid-column: span 2;"><strong>Address:</strong> <span id="customer-address"></span></p>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <button onclick="window.location.href='index.html'" style="background: linear-gradient(45deg, #2196F3, #03a9f4); color: white; border: none; padding: 1rem 2rem; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(33,150,243,0.3);">
+                    <i class="fas fa-plus"></i> Place New Order
+                </button>
+            </div>
         </section>
     </main>
 
@@ -40,12 +55,17 @@
                         const data = orders[orders.length - 1]; // Get the last order
                         document.getElementById('order-details').style.display = 'block';
                         let itemsHtml = '';
-                        data.order.forEach(item => {
-                            itemsHtml += `<p>${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}</p>`;
+                        data.items.forEach(item => {
+                            itemsHtml += `
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem; background: white; border-radius: 10px; margin-bottom: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                    <span style="font-weight: 500;">${item.name} (x${item.quantity})</span>
+                                    <span style="color: #ff6b6b; font-weight: 600;">₹${item.price * item.quantity}</span>
+                                </div>
+                            `;
                         });
                         document.getElementById('order-items').innerHTML = itemsHtml;
                         document.getElementById('order-total').textContent = data.total;
-                        document.getElementById('customer-name').textContent = data.name;
+                        document.getElementById('customer-name').textContent = data.customer_name;
                         document.getElementById('customer-phone').textContent = data.phone;
                         document.getElementById('customer-address').textContent = data.address;
                     }
@@ -55,5 +75,41 @@
                 });
         });
     </script>
+
+    <style>
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                transform: translate3d(0,0,0);
+            }
+            40%, 43% {
+                transform: translate3d(0, -30px, 0);
+            }
+            70% {
+                transform: translate3d(0, -15px, 0);
+            }
+            90% {
+                transform: translate3d(0, -4px, 0);
+            }
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33,150,243,0.4);
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 2rem 1rem;
+            }
+
+            #success-message {
+                padding: 2rem 1rem;
+            }
+
+            h2 {
+                font-size: 2rem !important;
+            }
+        }
+    </style>
 </body>
 </html>

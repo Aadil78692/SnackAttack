@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql2');
+const fs = require('fs');
 const cors = require('cors');
 const app = express();
 const PORT = 3001;
@@ -8,44 +8,57 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Database connection
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '', // Replace with your actual MySQL password
-    database: 'snackattack_db'
-});
-
-db.connect((err) => {
-    if (err) {
-        console.error('Error connecting to database:', err);
-        return;
+// Helper function to read orders from JSON file
+function readOrders() {
+    try {
+        if (fs.existsSync('orders.json')) {
+            const data = fs.readFileSync('orders.json', 'utf8');
+            return JSON.parse(data);
+        }
+        return [];
+    } catch (error) {
+        console.error('Error reading orders:', error);
+        return [];
     }
-    console.log('Connected to MySQL database');
-});
+}
+
+// Helper function to write orders to JSON file
+function writeOrders(orders) {
+    try {
+        fs.writeFileSync('orders.json', JSON.stringify(orders, null, 2));
+    } catch (error) {
+        console.error('Error writing orders:', error);
+        throw error;
+    }
+}
 
 // API to get all orders
 app.get('/api/orders', (req, res) => {
-    db.query('SELECT * FROM orders', (err, results) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json(results);
-    });
+    const orders = readOrders();
+    res.json(orders);
 });
 
 // API to add a new order
 app.post('/api/orders', (req, res) => {
     const { customer_name, items, total } = req.body;
-    const query = 'INSERT INTO orders (customer_name, items, total) VALUES (?, ?, ?)';
-    db.query(query, [customer_name, JSON.stringify(items), total], (err, result) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({ message: 'Order saved successfully', id: result.insertId });
-    });
+
+    try {
+        const orders = readOrders();
+        const newOrder = {
+            id: Date.now(), // Simple ID generation
+            customer_name,
+            items,
+            total,
+            timestamp: new Date().toISOString()
+        };
+
+        orders.push(newOrder);
+        writeOrders(orders);
+
+        res.json({ message: 'Order saved successfully', id: newOrder.id });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 app.listen(PORT, () => {
