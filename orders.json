@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1758686995038,
+    "customer_name": "aadil",
+    "items": [
+      {
+        "name": "Paneer Tikka Masala",
+        "price": 280,
+        "quantity": 1
+      },
+      {
+        "name": "Butter Chicken",
+        "price": 350,
+        "quantity": 1
+      },
+      {
+        "name": "Chicken Biryani",
+        "price": 320,
+        "quantity": 1
+      }
+    ],
+    "total": "950",
+    "timestamp": "2025-09-24T04:09:55.038Z"
+  },
+  {
+    "id": 1758687881868,
+    "customer_name": "aadil",
+    "items": [
+      {
+        "name": "Butter Chicken",
+        "price": 350,
+        "quantity": 3
+      }
+    ],
+    "total": "1050",
+    "timestamp": "2025-09-24T04:24:41.868Z"
+  }
+]

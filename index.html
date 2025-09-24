@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnackAttack - Indian Restaurant Online Ordering</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>SnackAttack</h1>
+        <p>Your favorite Indian restaurant - Order online now!</p>
+        <a href="orders.html" style="color: white; text-decoration: none; margin-top: 1rem; display: inline-block;">View All Orders</a>
+    </header>
+
+    <main>
+        <section id="menu">
+            <h2>Our Menu</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=300&h=200&fit=crop" alt="Butter Chicken">
+                    <h3>Butter Chicken</h3>
+                    <p>Rich and creamy chicken curry with butter and spices</p>
+                    <span class="price">₹350</span>
+                    <button class="add-to-cart" data-name="Butter Chicken" data-price="350">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300&h=200&fit=crop" alt="Paneer Tikka Masala">
+                    <h3>Paneer Tikka Masala</h3>
+                    <p>Grilled paneer in a spicy tomato-based gravy</p>
+                    <span class="price">₹280</span>
+                    <button class="add-to-cart" data-name="Paneer Tikka Masala" data-price="280">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=300&h=200&fit=crop" alt="Chicken Biryani">
+                    <h3>Chicken Biryani</h3>
+                    <p>Aromatic rice dish with marinated chicken and spices</p>
+                    <span class="price">₹320</span>
+                    <button class="add-to-cart" data-name="Chicken Biryani" data-price="320">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&h=200&fit=crop" alt="Vegetable Samosa">
+                    <h3>Vegetable Samosa</h3>
+                    <p>Crispy pastry filled with spiced potatoes and peas</p>
+                    <span class="price">₹80</span>
+                    <button class="add-to-cart" data-name="Vegetable Samosa" data-price="80">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=200&fit=crop" alt="Chole Bhature">
+                    <h3>Chole Bhature</h3>
+                    <p>Spicy chickpeas served with fried bread</p>
+                    <span class="price">₹150</span>
+                    <button class="add-to-cart" data-name="Chole Bhature" data-price="150">Add to Cart</button>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="cart">
+            <h2>Your Order</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total">
+                <strong>Total: ₹<span id="total-amount">0</span></strong>
+            </div>
+            <button id="clear-cart">Clear Cart</button>
+        </section>
+
+        <section id="customer-details">
+            <h2>Customer Details</h2>
+            <form id="order-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" required>
+                
+                <label for="address">Address:</label>
+                <textarea id="address" required></textarea>
+                
+                <button type="submit">Place Order</button>
+            </form>
+        </section>
+
+        <section id="order-summary" style="display: none;">
+            <h2>Order Summary</h2>
+            <div id="summary-content"></div>
+            <button id="new-order">Place New Order</button>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> <strong>Phone:</strong> +91 754213659</p>
+                    <p><i class="fas fa-envelope"></i> <strong>Email:</strong> snackattack@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> Modasa, Bus Station</p>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Opening Hours</h3>
+                <div class="hours-info">
+                    <p><strong>Monday - Friday:</strong> 10:00 AM - 10:00 PM</p>
+                    <p><strong>Saturday:</strong> 9:00 AM - 11:00 PM</p>
+                    <p><strong>Sunday:</strong> Closed</p>
+                    <p><strong>Holidays:</strong> 11:00 AM - 9:00 PM</p>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="quick-links">
+                    <li><a href="#menu">Our Menu</a></li>
+                    <li><a href="orders.html">View Orders</a></li>
+                    <li><a href="#customer-details">Place Order</a></li>
+                    <li><a href="#cart">Your Cart</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>About SnackAttack</h3>
+                <p>Experience the authentic taste of India with our traditional recipes passed down through generations. We serve fresh, delicious food made with love and the finest ingredients.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 SnackAttack Restaurant. All rights reserved. | Made with ❤️ for food lovers</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
